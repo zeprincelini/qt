@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { ReactElement, ComponentProps } from "react";
+import Loader from "./Loader";
 
 type Variants = "primary" | "secondary";
 
@@ -9,6 +9,7 @@ type Props = {
   width?: string;
   padding?: string;
   loading?: boolean;
+  disabled?: boolean;
   variant?: Variants;
 } & ComponentProps<"button">;
 
@@ -17,6 +18,7 @@ const Button = ({
   variant = "primary",
   children,
   className,
+  disabled,
   bold = false,
   loading,
   ...rest
@@ -31,23 +33,13 @@ const Button = ({
   };
   return (
     <button
-      disabled={loading}
+      disabled={loading || disabled}
       className={`grid place-items-center rounded-md border-[1px] border-blue-500 py-3 px-5 disabled:opacity-75 disabled:cursor-not-allowed disabled:pointer-events-none ${
         bold ? `font-bold` : `font-normal`
-      } ${width} ${selectVariant(variant)} ${className} 
-      }`}
+      } ${width} ${selectVariant(variant)} ${className} }`}
       {...rest}
     >
-      {loading ? (
-        <Image
-          src={"assets/svg/loader.svg"}
-          width={20}
-          height={20}
-          alt="loader"
-        />
-      ) : (
-        <p>{children}</p>
-      )}
+      {loading ? <Loader width={"20px"} height={"20px"} /> : <p>{children}</p>}
     </button>
   );
 };
