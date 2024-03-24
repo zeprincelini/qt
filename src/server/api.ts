@@ -1,10 +1,16 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { http } from ".";
+import { formatQuestion } from "../utils";
 import { Questions, Token } from "../types";
 
-export const getToken = async (email = "email@email.com") => {
+export const getToken = () => {
+  return cookies().get("token")?.value;
+};
+
+export const generateToken = async (email = "email@email.com") => {
   try {
     const res = await http("token", "POST", { email });
 
@@ -12,7 +18,7 @@ export const getToken = async (email = "email@email.com") => {
       throw new Error("Error retrieving token!");
     }
     const data = (await res.json()) as Token;
-    localStorage.setItem("token", data.token);
+    cookies().set("token", data.token);
   } catch (error) {
     throw new Error(
       error instanceof Error ? error.message : "Something went wrong!"
@@ -28,7 +34,8 @@ export const getQuestions = async (): Promise<Questions[]> => {
       throw new Error("Error retrieving questions!");
     }
 
-    return res.json();
+    const data = await res.json();
+    return formatQuestion(data);
   } catch (error) {
     throw new Error(
       error instanceof Error ? error.message : "Something went wrong!"
