@@ -2,7 +2,7 @@
 import { ReactElement, ComponentProps } from "react";
 import Loader from "./Loader";
 
-type Variants = "primary" | "secondary";
+type Variants = "primary" | "secondary" | "danger";
 
 type Props = {
   bold?: boolean;
@@ -19,14 +19,16 @@ const Button = ({
   children,
   className,
   disabled,
+  padding = "py-3 px-5",
   bold = false,
   loading,
   ...rest
 }: Props): ReactElement => {
   const selectVariant = (type: Variants) => {
     const options = {
-      primary: "bg-blue-500 text-white",
-      secondary: "bg-transparent text-blue-500",
+      primary: "bg-blue-500 text-white border-blue-500",
+      secondary: "bg-transparent text-blue-500 border-blue-500",
+      danger: "bg-red-500 text-white border-red-500",
     };
 
     return options[type];
@@ -34,7 +36,7 @@ const Button = ({
   return (
     <button
       disabled={loading || disabled}
-      className={`grid place-items-center rounded-md border-[1px] border-blue-500 py-3 px-5 disabled:opacity-75 disabled:cursor-not-allowed disabled:pointer-events-none ${
+      className={`grid place-items-center rounded-md border-[1px] ${padding} disabled:opacity-75 disabled:cursor-not-allowed disabled:pointer-events-none ${
         bold ? `font-bold` : `font-normal`
       } ${width} ${selectVariant(variant)} ${className} }`}
       {...rest}
