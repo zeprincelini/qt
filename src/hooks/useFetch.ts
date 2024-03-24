@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 
-export const useFetch = (action: () => Promise<any>) => {
-  const [data, setData] = useState<any>();
+export const useFetch = <T>(action: () => Promise<T>) => {
+  const [data, setData] = useState<T | undefined>(undefined);
   const [error, setError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const runAction = async () => {
       try {
-        setIsLoading(true);
         const res = await action();
         setData(res);
       } catch (error) {
