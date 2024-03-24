@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { http } from ".";
-import { Questions } from "../types";
+import { Questions, Token } from "../types";
 
 export const getToken = async (email = "email@email.com") => {
   try {
@@ -11,8 +11,8 @@ export const getToken = async (email = "email@email.com") => {
     if (!res.ok) {
       throw new Error("Error retrieving token!");
     }
-
-    console.log(res.json());
+    const data = (await res.json()) as Token;
+    localStorage.setItem("token", data.token);
   } catch (error) {
     throw new Error(
       error instanceof Error ? error.message : "Something went wrong!"
@@ -20,7 +20,7 @@ export const getToken = async (email = "email@email.com") => {
   }
 };
 
-export const getQuestions = async () => {
+export const getQuestions = async (): Promise<Questions[]> => {
   try {
     const res = await http("questions", "GET", undefined, true);
 
