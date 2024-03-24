@@ -1,4 +1,8 @@
-const { BASE_URL } = process.env;
+"use server";
+
+import { cookies } from "next/headers";
+
+const { NEXT_PUBLIC_BASE_URL } = process.env;
 
 export const http = (
   path: string,
@@ -8,13 +12,12 @@ export const http = (
 ) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...(token && { Authorization: `Bearer ${localStorage.getItem("token")}` }),
+    ...(token && { token: cookies().get("token")?.value }),
   };
   const options: RequestInit = { headers, method };
 
   if (data) {
     options.body = JSON.stringify(data);
   }
-
-  return fetch(`${BASE_URL}/${path}`, options);
+  return fetch(`${NEXT_PUBLIC_BASE_URL}/${path}`, options);
 };
