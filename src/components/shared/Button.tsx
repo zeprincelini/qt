@@ -1,6 +1,6 @@
 "use client";
 import { ReactElement, ComponentProps } from "react";
-import Loader from "./Loader";
+import Loader from "../svg/Loader";
 
 type Variants = "primary" | "secondary" | "danger";
 
