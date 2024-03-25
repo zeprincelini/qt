@@ -2,25 +2,25 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Questions } from "../types";
-import Button from "./shared/Button";
-import ErrorText from "./ErrorText";
-import { useAction } from "../hooks/useAction";
-import { deleteQuestions } from "../server/api";
 
 type Prop = {
   data: Questions;
 };
 
 const Question = ({ data }: Prop) => {
-  const { isLoading, error, action } = useAction(deleteQuestions);
   const router = useRouter();
-  const onSelect = (id: string) => router.push(`/questions/${id}`);
-  const onDelete = (id: string) => action(id);
+  const onSelect = (data: Questions) => {
+    localStorage.setItem("question", JSON.stringify(data));
+    router.push(`/questions/${data.id}`);
+  };
   return (
-    <div
-      className="cursor-pointer p-3 border border-gray-200 rounded"
-      onClick={() => onSelect(data.id)}
-    >
+    <div className="p-5 border border-gray-200 rounded relative">
+      <div
+        className="absolute cursor-pointer right-[10px]"
+        onClick={() => onSelect(data)}
+      >
+        <p className="underline text-green-500">View</p>
+      </div>
       <div className="grid gap-3">
         <div className="grid gap-1">
           <p className="font-light text-xs">Question</p>
@@ -34,19 +34,6 @@ const Question = ({ data }: Prop) => {
             ))}
           </div>
         </div>
-      </div>
-      <div className="flex justify-center my-5">
-        {error ? <ErrorText {...{ error }} /> : null}
-        <Button
-          variant="danger"
-          padding="py-2"
-          width="w-full md:w-1/3"
-          onClick={() => onDelete(data.id)}
-          loading={isLoading}
-          disabled={isLoading}
-        >
-          Delete
-        </Button>
       </div>
     </div>
   );
