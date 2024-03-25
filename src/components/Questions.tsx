@@ -6,7 +6,7 @@ import { Questions } from "../types";
 import { useFetch } from "../hooks/useFetch";
 import { getQuestions } from "../server/api";
 
-const Questions = () => {
+const QuestionsList = () => {
   const { isLoading, data } = useFetch<Questions[]>(getQuestions);
   return (
     <>
@@ -23,4 +23,4 @@ const Questions = () => {
   );
 };
 
-export default Questions;
+export default QuestionsList;

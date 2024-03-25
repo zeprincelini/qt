@@ -29,8 +29,10 @@ const Question = ({ data }: Prop) => {
         <div>
           <p className="font-light text-xs">Options</p>
           <div className="px-2">
-            {data.options.map((item) => (
-              <p className="py-2 text-base text-gray-600">{item}</p>
+            {data.options.map((item, i) => (
+              <p key={i} className="py-2 text-base text-gray-600">
+                {item}
+              </p>
             ))}
           </div>
         </div>
