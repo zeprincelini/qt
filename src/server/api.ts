@@ -26,7 +26,7 @@ export const generateToken = async (email = "email@email.com") => {
   }
 };
 
-export const getQuestions = async (): Promise<Questions[]> => {
+export const getQuestions = async () => {
   try {
     const res = await http("questions", "GET", undefined, true);
 
@@ -59,9 +59,10 @@ export const addQuestions = async (payload: Questions) => {
   }
 };
 
-export const editQuestions = async (id: string, payload: Questions) => {
+export const editQuestions = async (payload: Questions) => {
   try {
-    const res = await http(`questions/${id}`, "PUT", payload, true);
+    const { id, ...rest } = payload;
+    const res = await http(`questions/${id}`, "PUT", rest, true);
 
     if (!res.ok) {
       throw new Error("Error updating question!");
@@ -77,7 +78,7 @@ export const editQuestions = async (id: string, payload: Questions) => {
 
 export const deleteQuestions = async (id: string) => {
   try {
-    const res = await http(`questions/${id}`, "DELETE", true);
+    const res = await http(`questions/${id}`, "DELETE", undefined, true);
 
     if (!res.ok) {
       throw new Error("Error deleting question!");
