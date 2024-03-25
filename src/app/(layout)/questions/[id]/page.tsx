@@ -2,12 +2,12 @@
 import { useRouter, useParams } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 import { Questions } from "../../../../types";
-import { deleteQuestions, editQuestions } from "../../../../server/api";
 import Input from "../../../../components/shared/Input";
 import { useAction } from "../../../../hooks/useAction";
 import ErrorText from "../../../../components/ErrorText";
 import Button from "../../../../components/shared/Button";
 import OptionInput from "../../../../components/OptionInput";
+import { deleteQuestions, editQuestions } from "../../../../server/api";
 
 const QuestionPage = () => {
   const router = useRouter();
