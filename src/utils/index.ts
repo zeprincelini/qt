@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { Question } from "../types";
 
 export const formatQuestion = (arg: Record<string, Question>) => {
@@ -7,9 +6,4 @@ export const formatQuestion = (arg: Record<string, Question>) => {
     question: arg[item].question,
     options: arg[item].options,
   }));
-};
-
-export const getToken = () => {
-  const token = cookies().get("token");
-  return token;
 };

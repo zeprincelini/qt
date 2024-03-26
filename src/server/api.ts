@@ -6,8 +6,8 @@ import { http } from ".";
 import { formatQuestion } from "../utils";
 import { Questions, Token } from "../types";
 
-export const getToken = () => {
-  return cookies().get("token")?.value;
+export const getToken = async () => {
+  return await cookies().get("token")?.value;
 };
 
 export const generateToken = async (email = "email@email.com") => {
